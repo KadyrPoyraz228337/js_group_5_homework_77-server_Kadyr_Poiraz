@@ -34,6 +34,9 @@ module.exports = {
     },
 
     async addNewMessage(messageData) {
+
+        if(!messageData.author) messageData.author = 'anonimus';
+
         messageData.id = nanoid();
         messageData.datetime = new Date().toISOString();
         data.unshift(messageData);
@@ -46,11 +49,6 @@ module.exports = {
 
         const content = JSON.stringify(data, null, 2);
         await writeFile('./db.json', content);
-    },
-
-    getLastMessages(dateTime) {
-        const index = data.findIndex(item => item.datetime === dateTime);
-        return data.slice(0, index);
     },
 
     getMessages() {
